@@ -11,11 +11,15 @@ CPUS=$(grep "^processor" /proc/cpuinfo | wc -l)
 usage (){
         echo "|";
         echo "||";
-        echo "||     Usage: ./$0 [Device] [up]";
+        echo "||     Usage: ./$0 [OPTIONS] DEVICE";
         echo "||";
-        echo "||     Example: ./$0 condor up";
+        echo "||     Example: ./$0 -c1 -s -u condor";
         echo "||"
-        echo "|| [up] = To up build to AFH (optional)";
+        echo "|| [-c#] = make 1-clean 2-dirty";
+        echo "||"
+        echo "|| [-s] = sync before build"
+        echo "||"
+        echo "|| [-u] = To up build to AFH (optional)";
         echo "||";
         echo "|| [Device] = Device codename: condor, otus, falcon, clark...";
         echo "||";
