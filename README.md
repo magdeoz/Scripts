@@ -12,6 +12,10 @@
 #### note:
 Edit and add your username and password of AFH in the appropriate fields.
 
+### build_twrp.sh
+##### Usage:
+        ./Build-bot.sh [options] DEVICE
+        basically the same ^^
 
 ### setup-enviroment.sh
 ##### Usage:
