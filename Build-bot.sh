@@ -14,8 +14,8 @@ txtrst=$(tput sgr0)             #  Reset
 
 ## FTP ANDROID FILE HOST Dates
 HOST="uploads.androidfilehost.com"
-USER="magdeoz"          #User AFH
-PASS="WdTkuQDMJcGX"     #Password AFH
+USER="USER"          #User AFH
+PASS="PASS"     #Password AFH
 CPU=$(grep "^processor" /proc/cpuinfo | wc -l)
 
 ## script begins
