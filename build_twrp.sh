@@ -91,6 +91,7 @@ if [ $? -ne 0 ]; then
         STATED="Failure"
 else
         STATED="Success"
+        mv $OUT/recovery.img $PACKAGE
 fi
 
 if [ "$opt_upload" -eq 1 ]; then
