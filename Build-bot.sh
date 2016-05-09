@@ -77,7 +77,7 @@ elif [ "$opt_clean" -eq 2 ]; then
         echo ""
 elif [[ "$opt_clean" -ne 1 && $opt_clean -ne 2 ]]; then
         echo ""
-        echo -e ${red}" Invalid flag! -- [ $opt_clean ]"${txtrst}
+        echo -e ${red}"      Invalid flag! -- [ $opt_clean ]"${txtrst}
         usage
 fi
 
