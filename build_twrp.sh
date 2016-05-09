@@ -10,7 +10,6 @@ CPUS=$(grep "^processor" /proc/cpuinfo | wc -l)
 
 usage (){
         echo "|";
-        echo "||";
         echo "||     Usage: ./$0 [OPTIONS] DEVICE";
         echo "||";
         echo "||     Example: ./$0 -c1 -s -u condor";
