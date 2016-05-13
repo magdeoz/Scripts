@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# colors
+red=$(tput setaf 1)             #  red
+grn=$(tput setaf 2)             #  green
+blu=$(tput setaf 4)             #  blue
+cya=$(tput setaf 6)             #  cyan
+txtbld=$(tput bold)             #  Bold
+bldred=${txtbld}$(tput setaf 1) #  red
+bldgrn=${txtbld}$(tput setaf 2) #  green
+bldblu=${txtbld}$(tput setaf 4) #  blue
+bldcya=${txtbld}$(tput setaf 6) #  cyan
+txtrst=$(tput sgr0)             #  Reset
+
 HOST="uploads.androidfilehost.com"
 USER="USER"          #User AFH
 PASS="PASS"          #Password AFH
@@ -9,7 +21,8 @@ CPUS=$(grep "^processor" /proc/cpuinfo | wc -l)
 #________________ E N D V A R _______________________
 
 usage (){
-        echo "|";
+        clear
+        echo "||";
         echo "||     Usage: ./$0 [OPTIONS] DEVICE";
         echo "||";
         echo "||     Example: ./$0 -c1 -s -u condor";
@@ -22,7 +35,7 @@ usage (){
         echo "||";
         echo "|| [Device] = Device codename: condor, otus, falcon, clark...";
         echo "||";
-        echo "|";
+        echo "|| $1"
         exit 1;
 }
 
@@ -42,8 +55,16 @@ done
 shift $((OPTIND-1))
 
 if [ "$#" -ne 1 ]; then
-        usage
+        usage "No Options specific"
 fi
+
+check_result () {
+        if [ $? -ne 0 ]; then
+                echo ""
+                echo -e ${red}" [ERROR]${txtrst}: $1 -- ABORTING!" 1>&2
+                exit 1
+        fi
+}
 
 DEVICE="$1"
 OUT="out/target/product/$DEVICE"
@@ -56,18 +77,18 @@ if [[ "$opt_clean" -eq 0 ]]; then
         exit 1
 elif [ "$opt_clean" -eq 1 ]; then
         echo ""
-        echo "M a k e   c l e a n . . . "
+        echo "Make clean. . . "
         make clean >/dev/null
+        check_result "Make Clean Failed."
         echo ""
 elif [ "$opt_clean" -eq 2 ]; then
         echo ""
         echo "M a k e   D i r t y . . ."
         make dirty >/dev/null
+        check_result "Make Dirty Failed."
         echo ""
 elif [[ "$opt_clean" -ne 1 && $opt_clean -ne 2 ]]; then
-        echo ""
-        echo -e ${red}" Invalid flag! -- [ $opt_clean ]"${txtrst}
-        usage
+        usage "ERROR: Invalid Flag! [$opt_clean] -- aborting!"
 fi
 
 if [ "$opt_sync" -eq 1 ]; then
@@ -81,10 +102,13 @@ if [ "$opt_sync" -eq 1 ]; then
                 echo ""
         fi
 fi
-$PACKAGE
+
+echo "      Out Package Name: $PACKAGE"
 source build/envsetup.sh
 lunch omni_"$DEVICE"-userdebug
+check_result "Lunch Failed."
 make -j"$CPU" recoveryimage
+check_result "Make Build Failed."
 
 if [ $? -ne 0 ]; then
         STATED="Failure"
