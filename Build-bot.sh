@@ -34,6 +34,7 @@ usage (){
         echo -e ${blagrn}"  Example${txtrst}: $0 -c1 -s -u condor"
         echo ""
         echo "-----------------------------------"
+        echo -e " $1 "
         exit 1
 }
 
@@ -51,6 +52,14 @@ while getopts "c:us" opt; do
 done
 
 shift $((OPTIND-1))
+
+check_result () {
+        if [ $? -ne 0 ]; then
+                echo ""
+                echo -e ${red}" [ERROR]${txtrst}: $1 -- ABORTING!" 1>&2
+                exit 1
+        fi
+}
 
 if [ "$#" -ne 1 ]; then
     usage
@@ -76,9 +85,7 @@ elif [ "$opt_clean" -eq 2 ]; then
         make dirty >/dev/null
         echo ""
 elif [[ "$opt_clean" -ne 1 && $opt_clean -ne 2 ]]; then
-        echo ""
-        echo -e ${red}"      Invalid flag! -- [ $opt_clean ]"${txtrst}
-        usage
+        usage "${red} Invaild Flag [$opt_clean] -- ABORTING${txtrst}"
 fi
 
 #sync
@@ -96,7 +103,9 @@ fi
 
 source build/envsetup.sh
 make clobber
+check_result "Make Clober Failed."
 brunch $DEVICE
+
 if [ $? -ne 0 ]; then
         STATED="${red}"Failure"${txtrst}"
 else
@@ -120,8 +129,13 @@ if [ "$opt_upload" -eq 1 ]; then
                         echo -e ${bldgrn}"Completed"${txtrst}
                 fi
                 echo -e "FTP: Transferred file [ $up ] "
+                echo "Finished: $STATED"
         else
-                echo -e "Build Status: [ $STATED ]"
+                echo ""
+                echo "FTP: Upload Build"
+                echo -e "Build Status: [$STATED]"
+                echo "FTP: Current build result is [$STATED], not going to run."
+                echo "Finished: $STATED"
                 exit 1
         fi
 else
