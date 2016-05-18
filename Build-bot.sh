@@ -35,6 +35,7 @@ usage (){
         echo ""
         echo "-----------------------------------"
         echo -e " $1 "
+        echo ""
         exit 1
 }
 
@@ -78,11 +79,13 @@ elif [ "$opt_clean" -eq 1 ]; then
         echo ""
         echo "M a k e   c l e a n . . . "
         make clean >/dev/null
+        check_result "Make clean failed"
         echo ""
 elif [ "$opt_clean" -eq 2 ]; then
         echo ""
         echo "M a k e   D i r t y . . ."
         make dirty >/dev/null
+        check_result "Make Dirty failed"
         echo ""
 elif [[ "$opt_clean" -ne 1 && $opt_clean -ne 2 ]]; then
         usage "${red} Invaild Flag [$opt_clean] -- ABORTING${txtrst}"
