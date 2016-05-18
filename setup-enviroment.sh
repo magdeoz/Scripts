@@ -1,5 +1,9 @@
 #!/bin/bash
 
+load (){
+        for ((i = 0; i < $1; i++)); do echo -n "."; sleep 0.04; done; echo -e '][\033[00;32mCOMPLETE\033[00;0m]';sleep 0.6
+}
+
 TOOLS(){
         sudo apt-get -y install git-core python gnupg flex bison gperf libsdl1.2-dev libesd0-dev libwxgtk2.8-dev \
                 squashfs-tools build-essential zip curl libncurses5-dev zlib1g-dev pngcrush \
@@ -8,8 +12,6 @@ TOOLS(){
                 automake g++ gawk subversion expat libexpat1-dev python-all-dev binutils-static bc libcloog-isl-dev \
                 libcap-dev autoconf libgmp-dev build-essential gcc-multilib g++-multilib pkg-config libmpc-dev libmpfr-dev lzma* \
                 liblzma* w3m phablet-tools android-tools-adb ccache maven
-        sudo ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
-        echo "D e p e n d  e n c i e s  h a v e   b e e n   i n s t a l l e d"
 }
 
 SETDEV(){
@@ -18,23 +20,27 @@ SETDEV(){
         echo "Installing Tools..."
         TOOLS
         if [ ! $TOOLS ]; then
-                echo " o u t d a t e d   s y s t e m !"
-                echo ""
-                echo " U p d a t i n g   s y s t e m "
+                echo " Updating System"
                 sudo apt-get -y update
                 sudo apt-get -y upgrade
-                clear
                 echo ""
                 echo "Trying again..."
                 echo ""
                 TOOLS
+                if [ $? -ne 0 ]; then
+                        echo "ERROR: Not installing toosl"
+                        exit 1
+                fi
         fi
+        sudo ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
         echo "Downloading repo bin... "
         mkdir ~/bin && curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && chmod a+x ~/bin/repo
-        echo "SET PATH ..."
+        echo -n "Set Path        [" 
+        load 20
         echo "export PATH=~/bin:$PATH" >> ${HOME}/.bashrc
-        echo "Updating Bashrc"
-        source ~/.bashrc
+        echo -n "Updating Bashrc [" 
+        load 20
+        source ~/.bashrc 
         echo "  C  o  m  p  l  e  t  e  d "
 }
 
@@ -73,7 +79,7 @@ Menug()
                                         echo ""
                                         sleep 1.5s
                                         clear
-                                        Menu
+                                        Menug
                                 fi
                         fi
                 fi
