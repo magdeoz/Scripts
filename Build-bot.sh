@@ -25,7 +25,7 @@ usage (){
         echo -e ${grn}" Usage: $0 [options] DEVICE"${txtrst}
         echo ""
         echo -e ${bldgrn}"  OPTIONS: "${txtrst}
-        echo "    -c# - Cleanin option"
+        echo "    -c# - Build option"
         echo "          1 - Clean build"
         echo "          2 - Dirty build"
         echo "    -s - Sync before build"
