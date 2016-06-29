@@ -10,7 +10,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 if [ -e $1 ]; then
-		finder=$(grep color0 $1 | awk '{print $2}')
+	finder=$(grep color0 $1 | awk '{print $2}')
         colors=$(grep color[0-9] $1 | awk '{print $2}')
         bg=$(grep 'background' $1 | awk '{print $2}')
         fg=$(grep 'foreground' $1 | awk '{print $2}')
@@ -24,6 +24,6 @@ if [ -e $1 ]; then
                 exit 1
         fi
 else
-        echo "file '$1' not found"
+        echo "File: '$1' not found!"
         exit 1
 fi
