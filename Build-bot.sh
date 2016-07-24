@@ -12,7 +12,9 @@ bldblu=${txtbld}$(tput setaf 4) #  blue
 bldcya=${txtbld}$(tput setaf 6) #  cyan
 txtrst=$(tput sgr0)             #  Reset
 
-## FTP ANDROID FILE HOST Dates
+#
+# FTP ANDROID FILE HOST Dates
+#
 HOST="uploads.androidfilehost.com"
 USER="USER"          #User AFH
 PASS="PASS"     #Password AFH
@@ -22,7 +24,7 @@ CPU=$(grep "^processor" /proc/cpuinfo | wc -l)
 usage (){
         echo "-----------------------------------"
         echo ""
-        echo -e ${grn}" Usage: $0 [options] DEVICE"${txtrst}
+        echo -e ${grn}" Usage: $0 [options] DEVICE CODENAME"${txtrst}
         echo ""
         echo -e ${bldgrn}"  OPTIONS: "${txtrst}
         echo "    -c# - Build option"
@@ -34,8 +36,10 @@ usage (){
         echo -e ${blagrn}"  Example${txtrst}: $0 -c1 -s -u condor"
         echo ""
         echo "-----------------------------------"
-        echo -e " $1 "
-        echo ""
+        if [ $# -eq 1 ]; then
+                echo -e " $1 "
+                echo "-----------------------------------"
+        fi
         exit 1
 }
 
@@ -43,11 +47,12 @@ opt_clean=0
 opt_sync=0
 opt_upload=0
 
-while getopts "c:us" opt; do
+while getopts "c:ush" opt; do
         case "$opt" in
                 c) opt_clean="$OPTARG" ;;
                 s) opt_sync=1 ;;
                 u) opt_upload=1 ;;
+		h) usage ;;
                 *) usage
         esac
 done
@@ -74,7 +79,8 @@ if [[ "$opt_clean" -eq 0 ]]; then
         echo ""
         echo -e ${red}"Use a fucking flag loser"${txtrst}
         echo ""
-        exit 1
+        sleep 2s
+        usage
 elif [ "$opt_clean" -eq 1 ]; then
         echo ""
         echo "M a k e   c l e a n . . . "
