@@ -16,7 +16,7 @@ txtrst=$(tput sgr0)             #  Reset
 # FTP ANDROID FILE HOST Dates
 #
 HOST="uploads.androidfilehost.com"
-USER="USER"          #User AFH
+USER="USER"     #User AFH
 PASS="PASS"     #Password AFH
 CPU=$(grep "^processor" /proc/cpuinfo | wc -l)
 
@@ -90,7 +90,7 @@ elif [ "$opt_clean" -eq 1 ]; then
 elif [ "$opt_clean" -eq 2 ]; then
         echo ""
         echo "M a k e   D i r t y . . ."
-        make dirty >/dev/null
+        make >/dev/null
         check_result "Make Dirty failed"
         echo ""
 elif [[ "$opt_clean" -ne 1 && $opt_clean -ne 2 ]]; then
