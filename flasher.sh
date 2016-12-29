@@ -202,6 +202,8 @@ read -p 'Press any key ...'
 toolkit
 }
 
+Updater (){
+}
 
 
 Stock (){
@@ -226,7 +228,7 @@ Stock (){
                                 if [[ $spar == true ]]; then
                                         value=$(grep sparsing $filexml | sed "s/.*$2=\"\([^\"]*\).*/\1/")
                                         echo "Starting Flasher..."
-                                        echo fastboot $op $var
+                                        fastboot $op $var
                                         check_result "Check for errors" "Completed"
                                         echo ""
                                         sleep 1
@@ -237,26 +239,26 @@ Stock (){
                                 fi
                         elif [ $op == flash ]; then
                                 echo "${grn}Flashing${txtrst}: $file"
-                                echo fastboot $op $part $file
+                                fastboot $op $part $file
                                 check_result "Check for errors" "Completed"
                                 echo ""
                                 sleep 1
                         elif [ $op == erase ]; then
                                 echo "${grn}Erasing${txtrst}: $part"
-                                echo fastboot $op $part
+                                fastboot $op $part
                                 check_result "Check for errors" "Completed"
                                 echo ""
                                 sleep 1 
                         elif [ $op == oem ]; then
                                 if [ $var == fb_mode_set ]; then
                                         echo "Set fastboot mode"
-                                        echo fastboot $op $var
+                                        fastboot $op $var
                                         check_result "Check for errors" "Completed"
                                         echo ""
                                         sleep 1
                                 else
                                         echo "Fastboot mode clear"
-                                        echo fastboot $op $var
+                                        fastboot $op $var
                                         check_result "Check for errors" "Completed"
                                         echo ""
                                         sleep 1
@@ -271,5 +273,5 @@ Stock (){
 esac
 toolkit
 }
-#dependencies
+dependencies
 toolkit
